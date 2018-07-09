@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5">
+    <output url="file://$MODULE_DIR$/../MutilthreadAppDownloader/target/classes" />
+    <output-test url="file://$MODULE_DIR$/../MutilthreadAppDownloader/target/test-classes" />
+    <content url="file://$MODULE_DIR$/../MutilthreadAppDownloader">
+      <sourceFolder url="file://$MODULE_DIR$/../MutilthreadAppDownloader/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../MutilthreadAppDownloader/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../MutilthreadAppDownloader/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/../MutilthreadAppDownloader/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.0.5" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.25" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
+  </component>
+</module>
