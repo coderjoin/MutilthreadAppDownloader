@@ -1,3 +1,9 @@
+import entity.Appinfo;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Service;
+import services.AppinfoServices;
+
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -12,9 +18,17 @@ public class Test {
 //            e.printStackTrace();
 //        }
 //        System.out.println(list.size());
-        List<ApkDownloadInfo> list = AppInfoDao.retrieve("testForMutilProcessor");
-//
-        Worker.create(new ApkStorage()).thread(2).startUrl(list).run();
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("mybaties.xml");
+
+        AppinfoServices appinfoServices = context.getBean(AppinfoServices.class);
+        List<Appinfo> list = appinfoServices.getAllAppinfo("apps_huawei_20190515_all");
+
+//        RequestsFactory requestsFactory = context.getBean(RequestsFactory.class);
+//        List<ApkDownloadInfo> list = AppInfoDao.retrieve("apps_huawei_20190515_all");
+////
+        ApkStorage apkStorage = context.getBean(ApkStorage.class);
+        Worker.create(apkStorage).thread(30).startUrl(list).run();
 //        Worker worker = new Worker();
 //        worker.thread(5).startUrl(list).run();
     }

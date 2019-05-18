@@ -1,6 +1,9 @@
+import entity.Appinfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -14,6 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by qiaoying on 2018/4/25.
  */
+
 public class Worker implements Runnable {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -26,7 +30,7 @@ public class Worker implements Runnable {
 
     protected ApkStorage apkStorage;
 
-    protected List<ApkDownloadInfo> startUrls;
+    protected List<Appinfo> startUrls;
 
     //protected Scheduler scheduler = new DownloadScheduler();
 
@@ -48,7 +52,8 @@ public class Worker implements Runnable {
 
     protected AtomicInteger stat = new AtomicInteger(STAT_INIT);
 
-    private BlockingQueue<ApkDownloadInfo> queue = new LinkedBlockingQueue<ApkDownloadInfo>();
+    private BlockingQueue<Appinfo> queue = new LinkedBlockingQueue<Appinfo>();
+
 
     public static Worker create(ApkStorage apkStorage){
         return new Worker(apkStorage);
@@ -58,14 +63,12 @@ public class Worker implements Runnable {
         this.apkStorage = apkStorage;
     }
 
-    public  Worker startUrl(List<ApkDownloadInfo> startUrls){
+    public  Worker startUrl(List<Appinfo> startUrls){
         for (int i = 0,length = startUrls.size(); i < length; i++){
             //scheduler.push(startUrls.get(i));
             queue.add(startUrls.get(i));
         }
         System.out.println(queue.size());
-
-
         return this;
     }
 
@@ -104,10 +107,10 @@ public class Worker implements Runnable {
 
         while (!Thread.currentThread().isInterrupted() && stat.get() == STAT_RUNNING) {
 
-             final ApkDownloadInfo apkDownloadInfo = queue.poll();
+             final Appinfo appinfo = queue.poll();
              //logger.info("pkgName:"+apkDownloadInfo.getPkgName());
 
-            if (apkDownloadInfo == null) {
+            if (appinfo == null) {
                 if (threadPool.getThreadAlive() == 0 && exitWhenComplete) {
                     break;
                 }
@@ -119,12 +122,12 @@ public class Worker implements Runnable {
                     public void run() {
                         try {
 
-                            processRequest(apkDownloadInfo);
-                            logger.info("process request " + apkDownloadInfo.getPkgName() + " ok");
+                            processRequest(appinfo);
+                            logger.info("process request " + appinfo.getId() + " ok");
                             //onSuccess(request);
                         } catch (Exception e) {
                             //onError(request);
-                            logger.error("process request " + apkDownloadInfo.getPkgName() + " error", e);
+                            logger.error("process request " + appinfo.getId() + " error", e);
                         } finally {
                             //pageCount.incrementAndGet();
                             signalNewUrl();
@@ -170,9 +173,9 @@ public class Worker implements Runnable {
         threadPool.shutdown();
     }
 
-    private void processRequest(ApkDownloadInfo apkDownloadInfo){
+    private void processRequest(Appinfo appinfo){
         try {
-            ApkStorage.saveApk(apkDownloadInfo.getPkgName(),apkDownloadInfo.getDownloadUrl());
+            apkStorage.saveApk(appinfo.getId(),appinfo.getAppdownurl());
         } catch (IOException e){
 
         }

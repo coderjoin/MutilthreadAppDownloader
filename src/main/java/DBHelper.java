@@ -4,14 +4,14 @@ import java.sql.*;
  * Created by qiaoying on 2017/7/14.
  */
 public class DBHelper {
-    public static String driver = "com.mysql.jdbc.Driver";
-    public static String url = "jdbc:mysql://10.141.209.138:6603/appcrawler?useSSL=false&autoReconnect=true";
-    public static String user = "appcrawler";
-    public static String password ="appcrawler";
 //    public static String driver = "com.mysql.jdbc.Driver";
-//    public static String url = "jdbc:mysql://localhost:3306/appcrawler?useSSL=false&autoReconnect=true";
-//    public static String user = "root";
-//    public static String password ="123456";
+//    public static String url = "jdbc:mysql://10.141.209.138:6603/appcrawler?useSSL=false&autoReconnect=true";
+//    public static String user = "appcrawler";
+//    public static String password ="appcrawler";
+    public static String driver = "com.mysql.jdbc.Driver";
+    public static String url = "jdbc:mysql://10.131.255.105:3306/appcrawler?useSSL=false&autoReconnect=true";
+    public static String user = "root";
+    public static String password ="123456";
 
     public static Connection getConnection(){
         Connection con = null;
@@ -29,7 +29,9 @@ public class DBHelper {
     }
 
     public static int executeSQL(String sql, Object...args) throws SQLException {
+
         Connection con = getConnection();
+
         con.setAutoCommit(false);
         PreparedStatement sta = null;
         int rows = 0;
@@ -40,6 +42,8 @@ public class DBHelper {
             }
 
                 rows = sta.executeUpdate();
+
+            rows = sta.executeUpdate();
 
             //rows = sta.executeUpdate();
             if (rows > 0){
